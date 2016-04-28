@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A55A1A94-4A56-4433-B970-D805CC70DBB5}</ProjectGuid>
+    <ProjectGuid>{5A9F4120-830A-45E6-BAEF-89E02E92B742}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>_002.Simple_Array_Sum</RootNamespace>
-    <AssemblyName>_002.Simple_Array_Sum</AssemblyName>
+    <RootNamespace>_008.The_Maximum_Subarray</RootNamespace>
+    <AssemblyName>_008.The_Maximum_Subarray</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -43,7 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SimpleArraySum.cs" />
+    <Compile Include="TheMaximumSubarray.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

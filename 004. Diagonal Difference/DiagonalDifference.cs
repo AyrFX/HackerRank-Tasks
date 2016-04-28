@@ -32,7 +32,7 @@
 
 using System;
 
-class Program
+class Solution
 {
     static void Main()
     {
