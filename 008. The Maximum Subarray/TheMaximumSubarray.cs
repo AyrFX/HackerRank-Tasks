@@ -59,33 +59,20 @@ class Solution
             long maxSum = long.MinValue, currentSum = 0, maxUnCSum = 0, maxArrayElement = long.MinValue;
             for (int j = 0; j < sequenceLength; j++)
             {
-                if (j < 0)
-                {
-                    continue;
-                }
                 for (int k = j; k < sequenceLength; k++)
                 {
-                    for (int m = j; m <= k; m++)
-                    {
-                        if (currentSum + sequenceArray[m] <= 0 && m != j)
-                        {
-                            if (maxSum < currentSum)
-                            {
-                                maxSum = currentSum;
-                            }
-                            j = m;
-                            k = m;
-                            break;
-                        }
-                        currentSum += sequenceArray[m];
-                    }
-                    if (maxSum < currentSum)
+                    currentSum += sequenceArray[k];
+                    if (currentSum > maxSum)
                     {
                         maxSum = currentSum;
                     }
-                    currentSum = 0;
+                    else if (currentSum <= 0)
+                    {
+                        j = k;
+                        break;
+                    }
                 }
-
+                currentSum = 0;
             }
 
             for (int j = 0; j < sequenceLength; j++)
