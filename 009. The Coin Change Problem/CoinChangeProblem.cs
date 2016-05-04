@@ -62,53 +62,74 @@ using System;
 
 class Solution
 {
+    static long[] coinsValues;
+    static long[,] found;
+
     static void Main()
     {
-        int[] inputParameters = Array.ConvertAll(Console.ReadLine().Split(' '), int.Parse);
-        int amount = inputParameters[0];
-        int typesNumber = inputParameters[1];
-        int[] coinsValues = Array.ConvertAll(Console.ReadLine().Trim().Split(' '), int.Parse);
+        long[] inputParameters = Array.ConvertAll(Console.ReadLine().Split(' '), long.Parse);
+        long amount = inputParameters[0];
+        coinsValues = Array.ConvertAll(Console.ReadLine().Trim().Split(' '), long.Parse);
+        found = new long[amount + 1, coinsValues.Length];
 
         Array.Sort(coinsValues);
         Array.Reverse(coinsValues);
 
-        Console.WriteLine(calculateWays(amount, coinsValues, coinsValues[0]));
+        for (long i = 0; i < found.GetLength(0); i++)
+        {
+            for (long j = 0; j < found.GetLength(1); j++)
+            {
+                found[i, j] = -1;
+            }
+        }
+
+        Console.WriteLine(calculateWays(amount, 0));
     }
 
-    static long calculateWays(long amount, int[] coinsValues, int currentCoinValue)
+    static long calculateWays(long amount, long currentCoinIndex)
     {
         long numberOfWays = 0;
-        int currentCoinIndex = Array.IndexOf(coinsValues, currentCoinValue);
 
-        if (amount < currentCoinValue)
-        {
-            return 0;
-        }
-        if (amount == currentCoinValue)
+        if (amount == 0)
         {
             return 1;
         }
-
-        long maxOfType = amount / currentCoinValue;
-
-        for (int i = 0; i <= maxOfType; i++)
+        if (amount < coinsValues[coinsValues.Length - 1])
         {
-            if (currentCoinIndex + 1 > coinsValues.Length - 1)
+            return 0;
+        }
+        if (found[amount, currentCoinIndex] != -1)
+        {
+            return found[amount, currentCoinIndex];
+        }
+
+        while (coinsValues[currentCoinIndex] > amount)
+        {
+            currentCoinIndex++;
+        }
+        long currentCoinValue = coinsValues[currentCoinIndex];
+        long maxFromCurrentKind = amount / coinsValues[currentCoinIndex];
+
+        for (int i = 0; i <= maxFromCurrentKind; i++)
+        {
+            if (currentCoinIndex == coinsValues.Length - 1)
             {
                 if (amount % currentCoinValue == 0)
                 {
-                    numberOfWays = 1;
+                    return 1;
                 }
                 else
                 {
-                    numberOfWays = 0;
+                    return 0;
                 }
             }
-            for (int j = currentCoinIndex + 1; j <= coinsValues.Length - 1; j++)
+            else
             {
-                numberOfWays += calculateWays(amount - currentCoinValue * i, coinsValues, coinsValues[j]);
+                numberOfWays += calculateWays(amount - coinsValues[currentCoinIndex] * i, currentCoinIndex + 1);
             }
+
         }
+        found[amount, currentCoinIndex] = numberOfWays;
         return numberOfWays;
     }
 }
