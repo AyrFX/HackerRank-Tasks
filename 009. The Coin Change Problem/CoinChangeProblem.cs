@@ -4,7 +4,7 @@
 //Task
 //Write a program that, given
 //    The amount N to make change for and the number of types M of infinitely available coins
-//    A list of M coins - C={C1, C2, C3,.., CM}
+//    A list of M coins - C = {C1, C2, C3,.., CM}
 
 //Prints out how many different ways you can make change from the coins to STDOUT.
 
@@ -13,9 +13,9 @@
 //valued coins, how many ways can we make the change? The order of coins doesn’t matter.
 
 //      Constraints    
-//    1≤Ci≤50
-//    1≤N≤250
-//    1≤M≤50
+//    1 ≤ Ci ≤ 50
+//    1 ≤ N ≤ 250
+//    1 ≤ M ≤ 50
 //    The list of coins will contain distinct integers.
 
 //Solving the overlapping subproblems using dynamic programming
@@ -64,5 +64,51 @@ class Solution
 {
     static void Main()
     {
+        int[] inputParameters = Array.ConvertAll(Console.ReadLine().Split(' '), int.Parse);
+        int amount = inputParameters[0];
+        int typesNumber = inputParameters[1];
+        int[] coinsValues = Array.ConvertAll(Console.ReadLine().Trim().Split(' '), int.Parse);
+
+        Array.Sort(coinsValues);
+        Array.Reverse(coinsValues);
+
+        Console.WriteLine(calculateWays(amount, coinsValues, coinsValues[0]));
+    }
+
+    static long calculateWays(long amount, int[] coinsValues, int currentCoinValue)
+    {
+        long numberOfWays = 0;
+        int currentCoinIndex = Array.IndexOf(coinsValues, currentCoinValue);
+
+        if (amount < currentCoinValue)
+        {
+            return 0;
+        }
+        if (amount == currentCoinValue)
+        {
+            return 1;
+        }
+
+        long maxOfType = amount / currentCoinValue;
+
+        for (int i = 0; i <= maxOfType; i++)
+        {
+            if (currentCoinIndex + 1 > coinsValues.Length - 1)
+            {
+                if (amount % currentCoinValue == 0)
+                {
+                    numberOfWays = 1;
+                }
+                else
+                {
+                    numberOfWays = 0;
+                }
+            }
+            for (int j = currentCoinIndex + 1; j <= coinsValues.Length - 1; j++)
+            {
+                numberOfWays += calculateWays(amount - currentCoinValue * i, coinsValues, coinsValues[j]);
+            }
+        }
+        return numberOfWays;
     }
 }
